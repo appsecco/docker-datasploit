@@ -13,7 +13,7 @@ docker pull appsecco/datasploit:alpine
 - Use the docker container with interactive shell from the host system
 
 ```
-docker run -p 8000:8000 -it appsecco/datasploit:alpine
+docker run -p 8000:8000 -it appsecco/datasploit:alpine sh
 ```
 - Then add the “API_KEYS” to the “/opt/datasploit/config.py”
 - Then start the mongodb, rabbitmq and celery
