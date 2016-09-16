@@ -19,3 +19,7 @@ WORKDIR /datasploit
 RUN pip install -r requirements.txt
 
 RUN mv config_sample.py config.py && mkdir /datasploit/datasploitDb
+
+RUN apk del git && rm -rf /var/cache/apk/*
+
+EXPOSE 8000
