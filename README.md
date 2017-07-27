@@ -4,26 +4,26 @@ Docker container for datasploit framework
 - Here is a medium post about the release [https://medium.com/appsecco/docker-container-for-datasploit-26953f175e21](https://medium.com/appsecco/docker-container-for-datasploit-26953f175e21)
 
 
-### [Alpine Linux Docker Image](/alpine/)
+### [Docker Image v1.0 Version](/v1.0/)
 
-The datasploit docker container is created by using ubuntu:16.04 (Xenial Xerus) and it will install all the dependencies to quick start the working setup. 
+The datasploit docker container is created by using `python:2.7-stretch` and it will install all the dependencies to quick start the working setup. 
 
 ### Software required to use docker container
 
-- Docker (Tested version 1.12.1)
+- Docker (Tested version 17.X-ce)
 
 ### Steps to use the container
 
 - Pull the docker-datasploit image from the docker hub [https://hub.docker.com/r/appsecco/datasploit](https://hub.docker.com/r/appsecco/datasploit)
 
 ```
-docker pull appsecco/datasploit
+docker pull appsecco/datasploit:1.0
 ```
 
 - Use the docker container with interactive shell from the host system
 
 ```
-docker run -p 8000:8000 -it appsecco/datasploit
+docker run -it appsecco/datasploit:1.0 bash
 ```
 
 - Then add the “API_KEYS” to the “/opt/datasploit/config.py”
@@ -31,13 +31,8 @@ docker run -p 8000:8000 -it appsecco/datasploit
 
 ```
 service rabbitmq-server start
-mongod --fork --logpath datasploitDb/mongodb.log --dbpath datasploitDb
-cd /opt/datasploit/core
-nohup C_FORCE_ROOT=root celery -A core worker -l info --concurrency 20 &
-nohup python manage.py runserver 0.0.0.0:8000 &
+nohup mongod --dbpath /opt/datasploit/dataspoitDb &
 ```
-
-- Then navigate to the browser [http://localhost:8000](http://localhost:8000)
 
 - If you want to use command line scripts. You can navigate to “/opt/datasploit/” in docker container
 
