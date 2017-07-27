@@ -14,7 +14,7 @@ RUN cd /tmp \
     && apt-get install mongodb rabbitmq-server --no-install-recommends -y \
     && cd $DATASPLOIT_INSTALL_DIR \
     && pip install -r requirements.txt \
-    && mv $DATASPLOIT_INSTALL_DIR/config_simple.py $DATASPLOIT_INSTALL_DIR/config.py \
+    && cp $DATASPLOIT_INSTALL_DIR/config_simple.py $DATASPLOIT_INSTALL_DIR/config.py \
     && mkdir -p $MONGODB_DIR
 
 WORKDIR $DATASPLOIT_INSTALL_DIR
