@@ -1,5 +1,5 @@
 FROM python:2.7-stretch
-LABEL MAINTAINER "Madhu Akula <madhu.akula@hotmail.com>"
+LABEL MAINTAINER "Madhu Akula <madhu@appsecco.com>"
 
 ENV DATASPLOIT_VERSION v1.0
 ENV DATASPLOIT_INSTALL_DIR /opt/datasploit
@@ -14,7 +14,7 @@ RUN cd /tmp \
     && apt-get install mongodb rabbitmq-server --no-install-recommends -y \
     && cd $DATASPLOIT_INSTALL_DIR \
     && pip install -r requirements.txt \
-    && cp $DATASPLOIT_INSTALL_DIR/config_simple.py $DATASPLOIT_INSTALL_DIR/config.py \
+    && cp $DATASPLOIT_INSTALL_DIR/config_sample.py $DATASPLOIT_INSTALL_DIR/config.py \
     && mkdir -p $MONGODB_DIR
 
 WORKDIR $DATASPLOIT_INSTALL_DIR
