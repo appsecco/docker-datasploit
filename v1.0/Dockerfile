@@ -1,0 +1,20 @@
+FROM python:2.7-stretch
+LABEL MAINTAINER "Madhu Akula <madhu.akula@hotmail.com>"
+
+ENV DATASPLOIT_VERSION v1.0
+ENV DATASPLOIT_INSTALL_DIR /opt/datasploit
+ENV MONGODB_DIR /opt/datasploit/dataspoitDb
+
+RUN cd /tmp \
+    && curl -SLO "https://github.com/DataSploit/datasploit/archive/$DATASPLOIT_VERSION.tar.gz" \
+    && mkdir -p $DATASPLOIT_INSTALL_DIR \
+    && tar -xzf "$DATASPLOIT_VERSION.tar.gz" -C $DATASPLOIT_INSTALL_DIR --strip-components=1 \
+    && rm "$DATASPLOIT_VERSION.tar.gz" \
+    && apt-get update \
+    && apt-get install mongodb rabbitmq-server --no-install-recommends -y \
+    && cd $DATASPLOIT_INSTALL_DIR \
+    && pip install -r requirements.txt \
+    && mv $DATASPLOIT_INSTALL_DIR/config_simple.py $DATASPLOIT_INSTALL_DIR/config.py \
+    && mkdir -p $MONGODB_DIR
+
+WORKDIR $DATASPLOIT_INSTALL_DIR
