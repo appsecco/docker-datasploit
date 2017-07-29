@@ -23,7 +23,7 @@ docker pull appsecco/datasploit:1.0
 - Start the docker container with volume mount
 
 ```
-docker run --name datasploit -v `pwd`:/opt/datasploit/data -d datasploit:1.0
+docker run --name datasploit -v `pwd`:/opt/datasploit/data -d appsecco/datasploit:1.0
 ```
 
 - Use the docker container with interactive shell from the host system
