@@ -1,48 +1,24 @@
-# Datasploit in a container
-# 
-# docker run -p 8000:8000 -it appsecco/datasploit
-#
+FROM python:2.7-stretch
+LABEL MAINTAINER "Madhu Akula <madhu@appsecco.com>"
 
-FROM ubuntu:16.04
-MAINTAINER Madhu Akula <madhu@appsecco.com>
+ENV DATASPLOIT_VERSION v1.0
+ENV DATASPLOIT_INSTALL_DIR /opt/datasploit
+ENV MONGODB_DIR /opt/datasploit/dataspoitDb
 
-# installing dependencies
-RUN apt-get update && apt-get install -y python-pip \
-			python3-lxml libxml2-dev libxslt-dev python-dev git wget
+RUN cd /tmp \
+    && curl -SLO "https://github.com/DataSploit/datasploit/archive/$DATASPLOIT_VERSION.tar.gz" \
+    && mkdir -p $DATASPLOIT_INSTALL_DIR \
+    && tar -xzf "$DATASPLOIT_VERSION.tar.gz" -C $DATASPLOIT_INSTALL_DIR --strip-components=1 \
+    && rm "$DATASPLOIT_VERSION.tar.gz" \
+    && apt-get update \
+    && apt-get install mongodb rabbitmq-server --no-install-recommends -y \
+    && cd $DATASPLOIT_INSTALL_DIR \
+    && pip install -r requirements.txt \
+    && cp $DATASPLOIT_INSTALL_DIR/config_sample.py $DATASPLOIT_INSTALL_DIR/config.py \
+    && mkdir -p $MONGODB_DIR
 
-# installing lxml 
-RUN apt-get build-dep python3-lxml -y && pip install lxml
+WORKDIR $DATASPLOIT_INSTALL_DIR
 
-# key for mongodb
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+COPY scripts/service-start.sh $DATASPLOIT_INSTALL_DIR/service-start.sh
 
-# key for rabbitmq
-RUN wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | apt-key add -
-
-# adding mongo to apt source list
-RUN echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" |  tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-
-# adding rabbitmq for source list
-RUN echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.list.d/rabbitmq.list
-
-RUN apt-get update && apt-get install -y mongodb-org rabbitmq-server
-
-WORKDIR /opt
-
-# cloning the datasploit git repo
-RUN git clone https://github.com/upgoingstar/datasploit.git
-
-WORKDIR /opt/datasploit
-
-# installing python dependencies
-RUN pip install --upgrade pip && pip install -r requirements.txt
-
-# moving the configurations file for API (as per datasploit docs)
-RUN mv config_sample.py config.py
-
-RUN mkdir /opt/datasploit/datasploitDb
-
-RUN apt-get remove git wget -y
-
-# exposed the port 8000 to the host system
-EXPOSE 8000
+CMD ["/bin/bash", "/opt/datasploit/service-start.sh"]

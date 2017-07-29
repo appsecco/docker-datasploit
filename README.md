@@ -20,21 +20,21 @@ The datasploit docker container is created by using `python:2.7-stretch` and it 
 docker pull appsecco/datasploit:1.0
 ```
 
+- Start the docker container with volume mount
+
+```
+docker run --name datasploit -v `pwd`:/opt/datasploit/data -d datasploit:1.0
+```
+
 - Use the docker container with interactive shell from the host system
 
 ```
-docker run -it appsecco/datasploit:1.0 bash
+docker exec -it datasploit bash
 ```
 
-- Then add the “API_KEYS” to the “/opt/datasploit/config.py”
-- Then start the mongodb, rabbitmq and celery
+- Then add the `API_KEYS` to the `/opt/datasploit/config.py`
 
-```
-service rabbitmq-server start
-nohup mongod --dbpath /opt/datasploit/dataspoitDb &
-```
-
-- If you want to use command line scripts. You can navigate to “/opt/datasploit/” in docker container
+- If you want to use command line scripts. You can navigate to `/opt/datasploit/` in docker container
 
 ```
 python domainOsint.py -d <domain_name>

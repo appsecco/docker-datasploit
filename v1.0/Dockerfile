@@ -18,3 +18,7 @@ RUN cd /tmp \
     && mkdir -p $MONGODB_DIR
 
 WORKDIR $DATASPLOIT_INSTALL_DIR
+
+COPY scripts/service-start.sh $DATASPLOIT_INSTALL_DIR/service-start.sh
+
+CMD ["/bin/bash", "/opt/datasploit/service-start.sh"]
