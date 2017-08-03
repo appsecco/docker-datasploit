@@ -11,7 +11,7 @@ RUN cd /tmp \
     && tar -xzf "$DATASPLOIT_VERSION.tar.gz" -C $DATASPLOIT_INSTALL_DIR --strip-components=1 \
     && rm "$DATASPLOIT_VERSION.tar.gz" \
     && apt-get update \
-    && apt-get install mongodb rabbitmq-server --no-install-recommends -y \
+    && apt-get install mongodb rabbitmq-server vim --no-install-recommends -y \
     && cd $DATASPLOIT_INSTALL_DIR \
     && pip install -r requirements.txt \
     && cp $DATASPLOIT_INSTALL_DIR/config_sample.py $DATASPLOIT_INSTALL_DIR/config.py \
