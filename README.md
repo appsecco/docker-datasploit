@@ -20,10 +20,10 @@ The datasploit docker container is created by using `python:2.7-stretch` and it 
 docker pull appsecco/datasploit:1.0
 ```
 
-- Start the docker container with volume mount
+- Start the docker container with volume mounts
 
 ```
-docker run --name datasploit -v `pwd`:/opt/datasploit/data -d appsecco/datasploit:1.0
+docker run --name datasploit -v `pwd`/config.py:/opt/datasploit/config.py:ro -v `pwd`:/opt/datasploit/data -d appsecco/datasploit:1.0
 ```
 
 - Use the docker container with interactive shell from the host system
@@ -32,12 +32,12 @@ docker run --name datasploit -v `pwd`:/opt/datasploit/data -d appsecco/datasploi
 docker exec -it datasploit bash
 ```
 
-- Then add the `API_KEYS` to the `/opt/datasploit/config.py`
+- Then add the `API_KEYS` to the `config.py` in your host and it will get updated in container automatically
 
 - If you want to use command line scripts. You can navigate to `/opt/datasploit/` in docker container
 
 ```
-python domainOsint.py -d <domain_name>
+python usernameOsint.py username
 ```
 
 - Read more about tool in documentation http://www.datasploit.info/en/latest
